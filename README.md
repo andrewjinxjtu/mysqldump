@@ -20,7 +20,7 @@ func main() {
 		mysqldump.WithDBs("your database name"), // If you want to export all dbs, replace it with .WithAllDatabases()
 		/*
 			Multiple tables are separated by commas, eg: "t1", "t2", "t3",
-			If you want to export all tables, replace it with .WithAllTable()
+			If you want to export all tables, replace it with .WithAllTables()
 		*/
 		mysqldump.WithTables("your table name"),
 		mysqldump.WithDumpTable(),                 // Export table DDL

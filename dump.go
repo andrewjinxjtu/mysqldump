@@ -84,7 +84,7 @@ func WithTables(tables ...string) DumpOption {
 	}
 }
 
-func WithAllTable() DumpOption {
+func WithAllTables() DumpOption {
 	return func(option *dumpOption) {
 		option.isAllTable = true
 	}
@@ -454,7 +454,6 @@ func writeTableData(db *sql.DB, table, where string, buf *SafeWriter, withoutPri
 				case "JSON":
 					dml += fmt.Sprintf("'%s'", col)
 				default:
-					// unsupported type
 					log.Printf("unsupported type: %s", Type)
 					return fmt.Errorf("unsupported type: %s", Type)
 				}

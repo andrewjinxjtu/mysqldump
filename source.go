@@ -123,13 +123,7 @@ func Source(dns string, reader io.Reader, opts ...SourceOption) error {
 			return err
 		}
 
-		dml := line
-
-		dml, err = trim(dml)
-		if err != nil {
-			log.Printf("[error] [trim] %v\n", err)
-			return err
-		}
+		dml := trim(line)
 
 		// merge insert statement if mergeInsert is true
 		if o.mergeInsert > 1 && strings.HasPrefix(dml, "INSERT INTO") {
@@ -145,13 +139,10 @@ func Source(dns string, reader io.Reader, opts ...SourceOption) error {
 					return err
 				}
 
-				dml, err := trim(line)
-				if err != nil {
-					log.Printf("[error] [trim] %v\n", err)
-					return err
-				}
-				if strings.HasPrefix(dml, "INSERT INTO") {
-					insertSQLs = append(insertSQLs, dml)
+				l := trim(line)
+
+				if strings.HasPrefix(l, "INSERT INTO") {
+					insertSQLs = append(insertSQLs, l)
 					continue
 				}
 
@@ -221,8 +212,8 @@ func mergeInsert(insertSQLs []string) (string, error) {
 	return builder.String(), nil
 }
 
-func trim(s string) (string, error) {
+func trim(s string) string {
 	s = strings.TrimLeft(s, "\n")
 	s = strings.TrimSpace(s)
-	return s, nil
+	return s
 }
