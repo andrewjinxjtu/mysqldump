@@ -138,8 +138,8 @@ func Dump(dns string, opts ...DumpOption) error {
 		opt(&o)
 	}
 
+	// db in dsn by default
 	if len(o.dbs) == 0 {
-		// db in dsn by default
 		dbName, err := GetDBNameFromDNS(dns)
 		if err != nil {
 			log.Printf("[error] %v \n", err)
@@ -150,13 +150,13 @@ func Dump(dns string, opts ...DumpOption) error {
 		}
 	}
 
+	// export all tables by default
 	if len(o.tables) == 0 {
-		// export all tables by default
 		o.isAllTable = true
 	}
 
+	// output to the console by default
 	if o.writer == nil {
-		// output to the console by default
 		o.writer = os.Stdout
 	}
 
@@ -381,9 +381,9 @@ func writeTableData(db *sql.DB, table, where string, buf *SafeWriter, withoutPri
 			} else {
 				Type := columnTypes[i].DatabaseTypeName()
 				columnName := columnTypes[i].Name()
-				// 去除 UNSIGNED 和空格
 				Type = strings.Replace(Type, "UNSIGNED", "", -1)
 				Type = strings.Replace(Type, " ", "", -1)
+
 				switch Type {
 				case "TINYINT", "SMALLINT", "MEDIUMINT", "INT", "INTEGER", "BIGINT":
 					if bs, ok := col.([]byte); ok {

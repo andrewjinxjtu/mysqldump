@@ -86,7 +86,6 @@ func Source(dns string, reader io.Reader, opts ...SourceOption) error {
 		return err
 	}
 
-	// Open database
 	db, err = sql.Open("mysql", dns)
 	if err != nil {
 		log.Printf("[error] %v\n", err)
@@ -96,23 +95,18 @@ func Source(dns string, reader io.Reader, opts ...SourceOption) error {
 		_ = db.Close()
 	}()
 
-	// DB Wrapper
 	dbWrapper := newDBWrapper(db, o.dryRun, o.debug)
 
-	// use database
 	_, err = dbWrapper.Exec(fmt.Sprintf("USE %s;", dbName))
 	if err != nil {
 		log.Printf("[error] %v\n", err)
 		return err
 	}
 
-	// timeout after 1 hour
 	db.SetConnMaxLifetime(3600)
 
-	// exec line by line
 	r := bufio.NewReader(reader)
 
-	// autocommit mode is set to off
 	_, err = dbWrapper.Exec("SET autocommit=0;")
 	if err != nil {
 		log.Printf("[error] %v\n", err)
@@ -178,14 +172,12 @@ func Source(dns string, reader io.Reader, opts ...SourceOption) error {
 		}
 	}
 
-	// commit
 	_, err = dbWrapper.Exec("COMMIT;")
 	if err != nil {
 		log.Printf("[error] %v\n", err)
 		return err
 	}
 
-	// autocommit mode is set to on
 	_, err = dbWrapper.Exec("SET autocommit=1;")
 	if err != nil {
 		log.Printf("[error] %v\n", err)
