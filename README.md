@@ -36,5 +36,4 @@ func main() {
 		mysqldump.WithMergeInsert(1000), // The number of batch inserts
 	)
 }
-111
 ```
