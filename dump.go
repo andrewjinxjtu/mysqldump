@@ -381,9 +381,9 @@ func writeTableData(db *sql.DB, table, where string, buf *SafeWriter, withoutPri
 			} else {
 				Type := columnTypes[i].DatabaseTypeName()
 				columnName := columnTypes[i].Name()
-				// 去除 UNSIGNED 和空格
 				Type = strings.Replace(Type, "UNSIGNED", "", -1)
 				Type = strings.Replace(Type, " ", "", -1)
+
 				switch Type {
 				case "TINYINT", "SMALLINT", "MEDIUMINT", "INT", "INTEGER", "BIGINT":
 					if bs, ok := col.([]byte); ok {
