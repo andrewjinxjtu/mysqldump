@@ -138,8 +138,8 @@ func Dump(dns string, opts ...DumpOption) error {
 		opt(&o)
 	}
 
+	// db in dsn by default
 	if len(o.dbs) == 0 {
-		// db in dsn by default
 		dbName, err := GetDBNameFromDNS(dns)
 		if err != nil {
 			log.Printf("[error] %v \n", err)
@@ -150,13 +150,13 @@ func Dump(dns string, opts ...DumpOption) error {
 		}
 	}
 
+	// export all tables by default
 	if len(o.tables) == 0 {
-		// export all tables by default
 		o.isAllTable = true
 	}
 
+	// output to the console by default
 	if o.writer == nil {
-		// output to the console by default
 		o.writer = os.Stdout
 	}
 
